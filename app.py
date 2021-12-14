@@ -87,7 +87,10 @@ def signup():
 @app.route("/game", methods=["GET", "POST"])
 def game():
     if request.method == "GET":
-        return render_template("game.html", question=question)
+        if session.get("user"):
+            return render_template("game.html", question=question)
+        else:
+            return redirect("/login")
     elif request.method == "POST":
         pprint(request.form)
         return jsonify(request.form)
