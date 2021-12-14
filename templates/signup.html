@@ -1,20 +1,25 @@
 {% extends 'base.html' %}
 
 {% block header %}
-  <h1>{% block title %}Sign Up{% endblock %}</h1>
+<h1>{% block title %}Sign Up{% endblock %}</h1>
 {% endblock %}
 
 {% block content %}
-<div class="mb-3">
-    <label for="first-name" class="form-label">First Name</label>
-    <input type="email" class="form-control" id="first-name" placeholder="John">
-</div>
-<div class="mb-3">
-    <label for="last-name" class="form-label">Last Name</label>
-    <input type="email" class="form-control" id="last-name" placeholder="Doe">
-</div>
-<div class="mb-3">
-    <label for="email" class="form-label">Email address</label>
-    <input type="email" class="form-control" id="email" placeholder="name@example.com">
-</div>
+<form action="/signup" method="post">
+    <div class="mb-3">
+        <label for="first-name" class="form-label">First Name</label>
+        <input type="text" class="form-control" id="first-name" name="first_name" placeholder="John">
+    </div>
+    <div class="mb-3">
+        <label for="last-name" class="form-label">Last Name</label>
+        <input type="text" class="form-control" id="last-name" name="last_name" placeholder="Doe">
+    </div>
+    <div class="mb-3">
+        <label for="email" class="form-label">Email address</label>
+        <input type="email" class="form-control" id="email" name="email" placeholder="name@example.com">
+    </div>
+    <div class="mb-3">
+        <button class="btn btn-primary" type="submit">Sign Up</button>
+    </div>
+</form>
 {% endblock %}
