@@ -7,7 +7,7 @@
   <div class="container">
     <a class="navbar-brand" href="/">Quizzo</a>
     
-    {% if g.user %}
+    {% if session["user"] %}
 
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
@@ -23,7 +23,7 @@
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle" href="#" id="navbarScrollingDropdown" role="button"
               data-bs-toggle="dropdown" aria-expanded="false">
-              John Doe
+              {{ "{} {}".format(session["user"]["first_name"], session["user"]["last_name"]) }}
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
               <li><a class="dropdown-item" href="#">Action</a></li>
@@ -31,7 +31,7 @@
               <li>
                 <hr class="dropdown-divider">
               </li>
-              <li><a class="dropdown-item" href="#">Logout</a></li>
+              <li><a class="dropdown-item" href="/logout">Logout</a></li>
             </ul>
           </li>
         </div>
