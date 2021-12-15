@@ -8,6 +8,8 @@ from flask_mysqldb import MySQL
 
 
 app = Flask(__name__)
+
+#  Do not change
 app.secret_key = "5uP3r53Cr3T#"
 app.config['MYSQL_HOST'] = '34.93.65.193'
 app.config['MYSQL_USER'] = 'db-user'
@@ -20,8 +22,7 @@ mysql = MySQL(app)
 def status():
     return jsonify({
         "success": True,
-        "time": datetime.now().isoformat(),
-        "user": session.get("user")
+        "time": datetime.now().isoformat()
     })
 
 
@@ -32,29 +33,7 @@ def index():
 
 @app.route("/login", methods=["GET", "POST"])
 def login():
-    if request.method == "GET":
-        return render_template("login.html")
-    elif request.method == "POST":
-        form = request.form
-        try:
-            cursor = mysql.connection.cursor()
-            cursor.execute("SELECT * FROM users WHERE email='{0}'".format(form.get("email", "")))
-            user = cursor.fetchone()
-            if user:
-                pprint(user)
-                session["user"] = {
-                    "id": user[0], 
-                    "first_name": user[1], 
-                    "last_name": user[2], 
-                    "email": user[3],
-                    "questions_played": user[4],
-                    "score": user[5]
-                    }
-            cursor.close()
-
-            return redirect("/game")
-        except error:
-            return jsonify(error)
+    pass
 
 
 @app.route("/signup", methods=["GET", "POST"])
@@ -92,45 +71,7 @@ def signup():
 
 @app.route("/game", methods=["GET", "POST"])
 def game():
-    if request.method == "GET":
-        if session.get("user"):
-            cursor = mysql.connection.cursor()
-            cursor.execute("SELECT * FROM questions WHERE id={0}".format(session["user"]["questions_played"] + 1))
-            question = cursor.fetchone()
-            if question:
-                session["question"] = {
-                    "id": question[0], 
-                    "question": question[1], 
-                    "A": question[2], 
-                    "B": question[3], 
-                    "C": question[4], 
-                    "D": question[5], 
-                    "answer": question[6]
-                    }
-            cursor.close()
-            return render_template("game.html")
-        else:
-            return redirect("/login")
-    elif request.method == "POST":
-        form = request.form
-        try:
-            # session["user"]["questions_played"] = session["user"]["questions_played"] + 1
-            session["user"]["questions_played"] += 1
-            session["user"]["score"] += int(form["answer"] == session["question"]["answer"])
-            session.modified = True
-
-            cursor = mysql.connection.cursor()
-            cursor.execute("UPDATE users SET questions_played = {0}, score = {1} WHERE id={2}".format(
-                session["user"]["questions_played"],
-                session["user"]["score"],
-                session["user"]["id"]
-                ))
-            mysql.connection.commit()
-            cursor.close()
-            return redirect("/game")
-        except error:
-            return jsonify(error)
-
+    pass
 
 @app.route("/leaderboard")
 def leaderboard():
