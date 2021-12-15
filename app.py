@@ -8,6 +8,8 @@ from flask_mysqldb import MySQL
 
 
 app = Flask(__name__)
+
+#  Do not change
 app.secret_key = "5uP3r53Cr3T#"
 app.config['MYSQL_HOST'] = '34.93.65.193'
 app.config['MYSQL_USER'] = 'db-user'
@@ -40,8 +42,8 @@ def login():
             cursor = mysql.connection.cursor()
             cursor.execute("SELECT * FROM users WHERE email='{0}'".format(form.get("email", "")))
             user = cursor.fetchone()
+            pprint(user)
             if user:
-                pprint(user)
                 session["user"] = {
                     "id": user[0], 
                     "first_name": user[1], 
@@ -56,13 +58,13 @@ def login():
         except error:
             return jsonify(error)
 
-
 @app.route("/signup", methods=["GET", "POST"])
 def signup():
     if request.method == "GET":
         return render_template("signup.html")
     elif request.method == "POST":
         form = request.form
+        pprint(form)
         try:
             cursor = mysql.connection.cursor()
             cursor.execute("INSERT INTO users (first_name, last_name, email) VALUES ('{0}', '{1}', '{2}')".format(
@@ -131,26 +133,30 @@ def game():
         except error:
             return jsonify(error)
 
-
 @app.route("/leaderboard")
 def leaderboard():
-    cursor = mysql.connection.cursor()
-    cursor.execute("SELECT * FROM users ORDER BY score DESC, questions_played")
-    scores = []
-    for user in cursor.fetchall():
-        scores.append({
-            "name": "{} {}".format(user[1], user[2]),
-            "email": user[3],
-            "questions_played": user[4],
-            "score": user[5],
-            "total": round(user[5] / user[4] * 100.0, 2)
-        })
-    return render_template("leaderboard.html", scores=scores)
+    if session["user"]:
+        cursor = mysql.connection.cursor()
+        cursor.execute("SELECT * FROM users ORDER BY score DESC, questions_played")
+        scores = []
+        for user in cursor.fetchall():
+            scores.append({
+                "name": "{} {}".format(user[1], user[2]),
+                "email": user[3],
+                "questions_played": user[4],
+                "score": user[5],
+                "total": round(user[5] / max(user[4], * 100.0, 2) 
+            })
+        return render_template("leaderboard.html", scores=scores)
+    else:
+        return redirect("/login")
+
 
 
 @app.route("/logout")
 def logout():
     session["user"] = None
+    session["question"] = None
     return redirect("/")
 
 
