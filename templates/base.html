@@ -26,7 +26,7 @@
               {{ "{} {}".format(session["user"]["first_name"], session["user"]["last_name"]) }}
             </a>
             <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
-              <li><a class="dropdown-item disabled">{{ session["user"]["email"] }}</a></li>
+              <li><a class="dropdown-item disabled">{{ "{} ({})".format(session["user"]["email"], session["user"]["score"]) }}</a></li>
               <li>
                 <hr class="dropdown-divider">
               </li>

@@ -3,36 +3,33 @@
 {% block title %}Question{% endblock %}
 
 {% block header %}
-<h1>{{question.question}}</h1>
+<h1>{{session["question"].question}}</h1>
 {% endblock %}
 
 {% block content %}
 <form action="/game" method="post">
-    <div class="mb-3">
-        <input class="form-check-input" type="hidden" name="question_id" id="option-A" value="{{question.id}}" required>        
-    </div>    
     <div class="mb-3 form-check">
         <input class="form-check-input" type="radio" name="answer" id="option-A" value="A" required>
         <label class="form-check-label" for="option-A">
-            {{question.A}}
+            {{session["question"].A}}
         </label>
     </div>
     <div class="mb-3 form-check">
         <input class="form-check-input" type="radio" name="answer" id="option-B" value="B" required>
         <label class="form-check-label" for="option-B">
-            {{question.B}}
+            {{session["question"].B}}
         </label>
     </div>
     <div class="mb-3 form-check">
         <input class="form-check-input" type="radio" name="answer" id="option-C" value="C" required>
         <label class="form-check-label" for="option-C">
-            {{question.C}}
+            {{session["question"].C}}
         </label>
     </div>
     <div class="mb-3 form-check">
         <input class="form-check-input" type="radio" name="answer" id="option-D" value="D" required>
         <label class="form-check-label" for="option-D">
-            {{question.D}}
+            {{session["question"].D}}
         </label>
     </div>
     <div class="mb-3 mb-3">
