@@ -116,7 +116,6 @@ def game():
     elif request.method == "POST":
         form = request.form
         try:
-            # session["user"]["questions_played"] = session["user"]["questions_played"] + 1
             session["user"]["questions_played"] += 1
             session["user"]["score"] += int(form["answer"] == session["question"]["answer"])
             session.modified = True
@@ -145,7 +144,7 @@ def leaderboard():
                 "email": user[3],
                 "questions_played": user[4],
                 "score": user[5],
-                "total": round(user[5] / max(user[4], * 100.0, 2) 
+                "total": round(user[5] / max(user[4], 1) * 100.0, 2) 
             })
         return render_template("leaderboard.html", scores=scores)
     else:
