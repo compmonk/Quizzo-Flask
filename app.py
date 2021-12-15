@@ -120,12 +120,11 @@ def game():
             session.modified = True
 
             cursor = mysql.connection.cursor()
-            query = "UPDATE users SET questions_played = {0}, score = {1} WHERE id={2}".format(
+            cursor.execute("UPDATE users SET questions_played = {0}, score = {1} WHERE id={2}".format(
                 session["user"]["questions_played"],
                 session["user"]["score"],
                 session["user"]["id"]
-                )
-            cursor.execute(query)
+                ))
             mysql.connection.commit()
             cursor.close()
             return redirect("/game")
@@ -133,11 +132,26 @@ def game():
             return jsonify(error)
 
 
+@app.route("/leaderboard")
+def leaderboard():
+    cursor = mysql.connection.cursor()
+    cursor.execute("SELECT * FROM users ORDER BY score DESC, questions_played")
+    scores = []
+    for user in cursor.fetchall():
+        scores.append({
+            "name": "{} {}".format(user[1], user[2]),
+            "email": user[3],
+            "questions_played": user[4],
+            "score": user[5],
+            "total": round(user[5] / user[4] * 100.0, 2)
+        })
+    return render_template("leaderboard.html", scores=scores)
+
+
 @app.route("/logout")
 def logout():
-    if request.method == "GET":
-        session["user"] = None
-        return redirect("/")
+    session["user"] = None
+    return redirect("/")
 
 
 if __name__ == "__main__":

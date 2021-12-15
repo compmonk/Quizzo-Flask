@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block header %}
+<h1>{% block title %}Leaderboard{% endblock %}</h1>
+{% endblock %}
+
+{% block content %}
+<table class="table table-striped">
+    <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Score</th>
+        <th>Questions</th>
+        <th>Total</th>
+    </tr>
+    {% for score in scores %}
+    <tr>
+        <td>{{ score.name }}</td>
+        <td>{{ score.email }}</td>
+        <td>{{ score.score }}</td>
+        <td>{{ score.questions_played }}</td>
+        <td>{{ score.total }}</td>
+    </tr>
+    {% endfor %}
+</table>
+
+{% endblock %}
