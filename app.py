@@ -1,17 +1,14 @@
 from datetime import datetime
 from os import error
 from pprint import pprint
-from MySQLdb.cursors import Cursor
 
 from flask import Flask, jsonify, render_template, request, session, redirect
 from flask_mysqldb import MySQL
 
 
 app = Flask(__name__)
-
-#  Do not change
 app.secret_key = "5uP3r53Cr3T#"
-app.config['MYSQL_HOST'] = '34.93.65.193'
+app.config['MYSQL_HOST'] = 'localhost'
 app.config['MYSQL_USER'] = 'db-user'
 app.config['MYSQL_PASSWORD'] = 'Pass@123'
 app.config['MYSQL_DB'] = 'quizzo'
